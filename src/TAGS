@@ -1,0 +1,1433 @@
+
+boot/bootasm.S,226
+.code16 17,610
+.globl 18,671
+start:start19,684
+seta20.1:seta20.135,1421
+seta20.2:seta20.243,1601
+.code32 64,2408
+start32:start3265,2480
+spin:spin86,3257
+.p2align 90,3295
+gdt:gdt91,3362
+gdtdesc:gdtdesc96,3572
+
+boot/bootmain.c,115
+#define SECTSIZE 13,377
+void bootmain(18,488
+void waitdisk(48,1398
+void readsect(56,1543
+void readseg(74,2037
+
+kern/entry.S,287
+.set 18,541
+.set 19,605
+.align 31,997
+.long 32,1006
+.long 33,1035
+.long 34,1064
+.globl 36,1080
+_start:_start37,1097
+relocated:relocated51,1653
+spin:spin64,1993
+bootstack:bootstack77,2253
+bootstacktop:bootstacktop80,2307
+mygdt:mygdt84,2406
+mygdtdesc:mygdtdesc88,2572
+
+kern/init.c,138
+void test_backtrace(15,350
+void i386_init(25,538
+static const char *panicstr;panicstr55,1364
+void _panic(59,1509
+void _warn(80,1853
+
+kern/kernel.ld,41
+OUTPUT_FORMAT(6,146
+ENTRY(_start)8,220
+
+kern/kdebug.c,64
+static void stab_binsearch(54,1759
+int debuginfo_eip(105,3107
+
+kern/console.c,1792
+static void delay(16,299
+#define COM1 25,402
+#define COM_RX 26,430
+#define COM_TX 27,495
+#define COM_DLL 28,562
+#define COM_DLM 29,631
+#define COM_IER 30,701
+#define COM_IER_RDI 31,769
+#define COM_IIR 32,839
+#define COM_FCR 33,903
+#define COM_LCR 34,967
+#define COM_LCR_DLAB 35,1031
+#define COM_LCR_WLEN8 36,1095
+#define COM_MCR 37,1153
+#define COM_MCR_RTS 38,1218
+#define COM_MCR_DTR 39,1272
+#define COM_MCR_OUT2 40,1326
+#define COM_LSR 41,1381
+#define COM_LSR_DATA 42,1443
+#define COM_LSR_TXRDY 43,1497
+#define COM_LSR_TSRE 44,1558
+static bool serial_exists;46,1614
+static int serial_proc_data(48,1642
+void serial_intr(55,1766
+static void serial_putc(61,1848
+static void serial_init(70,2008
+static void lpt_putc(96,2737
+static unsigned addr_6845;108,2964
+static uint16_t *crt_buf;crt_buf109,2991
+static uint16_t crt_pos;110,3017
+static void cga_init(112,3043
+static void cga_putc(141,3599
+#define NO 190,4706
+#define SHIFT 191,4727
+#define CTL 192,4755
+#define ALT 193,4783
+#define CAPSLOCK 194,4811
+#define NUMLOCK 195,4839
+#define SCROLLLOCK 196,4867
+#define E0ESC 197,4895
+static uint8_t shiftcode[shiftcode199,4924
+static uint8_t togglecode[togglecode209,5062
+static uint8_t normalmap[normalmap216,5165
+static uint8_t shiftmap[shiftmap237,6098
+#define C(258,7031
+static uint8_t ctlmap[ctlmap260,7055
+static uint8_t *charcode[charcode277,7808
+static int kbd_proc_data(286,7997
+void kbd_intr(334,8948
+static void kbd_init(339,9001
+#define CONSBUFSIZE 347,9241
+  uint8_t buf[buf350,9282
+  uint32_t rpos;351,9310
+  uint32_t wpos;352,9327
+} cons;353,9344
+cons_intr(358,9473
+int cons_getc(372,9750
+static void cons_putc(393,10215
+void cons_init(401,10334
+void cputchar(418,10629
+int getchar(423,10671
+int iscons(432,10772
+
+kern/kclock.c,59
+unsigned mc146818_read(10,216
+void mc146818_write(16,311
+
+kern/monitor.c,417
+#define CMDBUF_SIZE	15,326
+struct command 17,393
+	const char *name;name18,410
+	const char *desc;desc19,429
+	int (*func)func22,491
+static struct command commands[commands25,554
+#define NCOMMANDS 30,722
+int mon_help(35,857
+int mon_kerninfo(44,1033
+int mon_backtrace(58,1575
+#define WHITESPACE 65,1715
+#define MAXARGS 66,1744
+static int runcmd(67,1763
+void monitor(105,2562
+unsigned read_eip(122,2924
+
+kern/pmap.c,1116
+#define PRINTMEM(14,214
+#define PRINTMEM(20,522
+static physaddr_t maxpa;25,599
+size_t npage;26,658
+static size_t basemem;27,729
+static size_t extmem;28,796
+pde_t *boot_pgdir;boot_pgdir31,906
+physaddr_t boot_cr3;32,984
+static char *boot_freemem;boot_freemem33,1063
+struct page *pages;pages34,1130
+static struct pagelist page_free_list;35,1203
+struct segdesc gdt[gdt41,1508
+struct pseudodesc gdt_pd 61,2045
+static int nvram_read(65,2118
+void i386_detect_memory(70,2219
+static void *boot_alloc(boot_alloc103,3404
+static pte_t *pgdir_walk(pgdir_walk144,4884
+static void boot_map_segment(156,5276
+void i386_vm_init(174,5946
+static void check_page_alloc(299,10508
+static void check_boot_pgdir(380,12839
+static physaddr_t check_va2pa(426,14126
+void page_init(449,14814
+static void page_clear(490,16211
+int page_alloc(504,16637
+void page_free(512,16826
+void page_decref(519,16978
+pte_t *boot_pgdir_walk(boot_pgdir_walk535,17491
+int page_insert(554,18163
+struct page *page_lookup(page_lookup567,18586
+void page_remove(584,19153
+void tlb_invalidate(591,19348
+void page_check(598,19554
+
+kern/printf.c,67
+static void putch(10,223
+int vcprintf(16,288
+int cprintf(24,404
+
+/home/cjeong/work/jake/src/include/kbdreg.h,1811
+#define JOS_KBDREG_H2,21
+#define KEY_HOME	5,63
+#define KEY_END	6,85
+#define KEY_UP	7,107
+#define KEY_DN	8,128
+#define KEY_LF	9,149
+#define KEY_RT	10,170
+#define KEY_PGUP	11,191
+#define KEY_PGDN	12,213
+#define KEY_INS	13,235
+#define KEY_DEL	14,257
+#define	KBSTATP	19,331
+#define	 KBS_DIB	20,389
+#define	 KBS_IBF	21,436
+#define	 KBS_WARM	22,485
+#define	 KBS_OCMD	23,535
+#define	 KBS_NOSEC	24,594
+#define	 KBS_TERR	25,654
+#define	 KBS_RERR	26,706
+#define	 KBS_PERR	27,753
+#define	KBCMDP	29,800
+#define	 KBC_RAMREAD	30,850
+#define	 KBC_RAMWRITE	31,896
+#define	 KBC_AUXDISABLE	32,942
+#define	 KBC_AUXENABLE	33,1000
+#define	 KBC_AUXTEST	34,1056
+#define	 KBC_KBDECHO	35,1108
+#define	 KBC_AUXECHO	36,1162
+#define	 KBC_AUXWRITE	37,1217
+#define	 KBC_SELFTEST	38,1274
+#define	 KBC_KBDTEST	39,1323
+#define	 KBC_KBDDISABLE	40,1374
+#define	 KBC_KBDENABLE	41,1431
+#define	 KBC_PULSE0	42,1486
+#define	 KBC_PULSE1	43,1536
+#define	 KBC_PULSE2	44,1586
+#define	 KBC_PULSE3	45,1636
+#define	KBDATAP	47,1687
+#define	KBOUTP	48,1732
+#define	K_RDCMDBYTE	50,1777
+#define	K_LDCMDBYTE	51,1802
+#define	KC8_TRANS	53,1828
+#define	KC8_MDISABLE	54,1883
+#define	KC8_KDISABLE	55,1929
+#define	KC8_IGNSEC	56,1978
+#define	KC8_CPU	57,2029
+#define	KC8_MENABLE	58,2088
+#define	KC8_KENABLE	59,2142
+#define	CMDBYTE	60,2199
+#define	KBC_RESET	63,2285
+#define	KBC_RESEND	64,2333
+#define	KBC_SETDEFAULT	65,2405
+#define	KBC_DISABLE	66,2480
+#define	KBC_ENABLE	67,2564
+#define	KBC_TYPEMATIC	68,2614
+#define	KBC_SETTABLE	69,2676
+#define	KBC_MODEIND	70,2739
+#define	KBC_ECHO	71,2801
+#define	KBR_EXTENDED	74,2889
+#define	KBR_RESEND	75,2943
+#define	KBR_ACK	76,2997
+#define	KBR_OVERRUN	77,3050
+#define	KBR_FAILURE	78,3089
+#define	KBR_BREAK	79,3138
+#define	KBR_RSTDONE	80,3207
+#define	KBR_ECHO	81,3253
+
+/home/cjeong/work/jake/src/include/asm.h,190
+#define SEG_NULLASM 7,133
+#define SEG_ASM(57,1765
+#define STA_X 63,2058
+#define STA_E 64,2111
+#define STA_C 65,2183
+#define STA_W 66,2259
+#define STA_R 67,2329
+#define STA_A 68,2394
+
+/home/cjeong/work/jake/src/include/x86.h,2328
+#define X86_H6,98
+static __inline void breakpoint(10,133
+static __inline uint8_t inb(11,203
+static __inline void insb(12,268
+static __inline uint16_t inw(13,344
+static __inline void insw(14,410
+static __inline uint32_t inl(15,486
+static __inline void insl(16,552
+static __inline void outb(17,628
+static __inline void outsb(18,700
+static __inline void outw(20,786
+static __inline void outsw(21,859
+static __inline void outsl(23,945
+static __inline void outl(25,1031
+static __inline void invlpg(26,1104
+static __inline void lidt(27,1172
+static __inline void lldt(28,1238
+static __inline void ltr(29,1306
+static __inline void lcr0(30,1373
+static __inline uint32_t rcr0(31,1441
+static __inline uint32_t rcr2(32,1509
+static __inline void lcr3(33,1577
+static __inline uint32_t rcr3(34,1645
+static __inline void lcr4(35,1713
+static __inline uint32_t rcr4(36,1781
+static __inline void tlbflush(37,1849
+static __inline uint32_t read_eflags(38,1917
+static __inline void write_eflags(39,1992
+static __inline uint32_t read_ebp(40,2068
+static __inline uint32_t read_esp(41,2140
+static __inline uint64_t read_tsc(44,2326
+static __inline void breakpoint(46,2399
+static __inline uint8_t inb(51,2470
+static __inline void insb(58,2605
+static __inline uint16_t inw(66,2847
+static __inline void insw(73,2984
+static __inline uint32_t inl(81,3226
+static __inline void insl(88,3363
+static __inline void outb(96,3569
+static __inline void outsb(101,3686
+static __inline void outw(109,3890
+static __inline void outsw(114,4008
+static __inline void outsl(122,4219
+static __inline void outl(130,4423
+static __inline void invlpg(135,4541
+static __inline void lidt(140,4650
+static __inline void lldt(145,4735
+static __inline void ltr(150,4825
+static __inline void lcr0(155,4913
+static __inline uint32_t rcr0(160,5009
+static __inline uint32_t rcr2(167,5130
+static __inline void lcr3(174,5251
+static __inline uint32_t rcr3(179,5347
+static __inline void lcr4(186,5468
+static __inline uint32_t rcr4(191,5564
+static __inline void tlbflush(198,5685
+static __inline uint32_t read_eflags(205,5843
+static __inline void write_eflags(212,6000
+static __inline uint32_t read_ebp(217,6118
+static __inline uint32_t read_esp(224,6261
+static __inline void cpuid(231,6404
+static __inline uint64_t read_tsc(248,6808
+
+/home/cjeong/work/jake/src/include/string.h,22
+#define STRING_H6,53
+
+/home/cjeong/work/jake/src/include/stdio.h,42
+#define STDIO_H6,63
+#define NULL	11,114
+
+/home/cjeong/work/jake/src/include/elf.h,982
+#define ELF_H6,83
+#define ELF_MAGIC 8,98
+struct elfhdr 13,185
+  uint magic;14,201
+  uchar elf[elf15,238
+  ushort type;16,255
+  ushort machine;17,270
+  uint version;18,288
+  uint entry;19,304
+  uint phoff;20,351
+  uint shoff;21,409
+  uint flags;22,423
+  ushort ehsize;23,437
+  ushort phentsize;24,454
+  ushort phnum;25,474
+  ushort shentsize;26,527
+  ushort shnum;27,547
+  ushort shstrndx;28,563
+#define ELF_PROG_LOAD 36,656
+#define ELF_PROG_FLAG_EXEC 39,729
+#define ELF_PROG_FLAG_WRITE 40,763
+#define ELF_PROG_FLAG_READ 41,797
+struct elf_proghdr 43,832
+  uint type;44,853
+  uint offset;45,866
+  uint va;46,881
+  uint pa;47,924
+  uint filesz;48,935
+  uint memsz;49,1002
+  uint flags;50,1076
+  uint align;51,1090
+struct elf_secthdr 54,1108
+	uint name;55,1129
+	uint type;56,1141
+	uint flags;57,1153
+	uint addr;58,1166
+	uint offset;59,1178
+	uint size;60,1192
+	uint link;61,1204
+	uint info;62,1216
+	uint addralign;63,1228
+	uint entsize;64,1245
+
+/home/cjeong/work/jake/src/include/queue.h,551
+#define QUEUE_H35,1710
+struct Frob49,2175
+	int frobozz;51,2189
+	LIST_ENTRY(52,2203
+struct Frob *f f65,2659
+f 66,2731
+f 67,2807
+		 f 70,2960
+LIST_FOREACH(73,3024
+#define	LIST_HEAD(103,4274
+#define	LIST_HEAD_INITIALIZER(110,4497
+#define	LIST_ENTRY(117,4844
+#define	LIST_EMPTY(124,5081
+#define	LIST_FIRST(127,5190
+#define	LIST_NEXT(131,5334
+#define	LIST_FOREACH(136,5582
+#define	LIST_INIT(142,5780
+#define	LIST_INSERT_AFTER(148,6002
+#define	LIST_INSERT_BEFORE(158,6550
+#define	LIST_INSERT_HEAD(168,6978
+#define	LIST_REMOVE(178,7423
+
+/home/cjeong/work/jake/src/include/stdarg.h,155
+#define	STDARG_H6,68
+typedef char *va_list;va_list8,86
+#define	__va_size(10,110
+#define	va_start(13,229
+#define	va_arg(16,314
+#define	va_end(19,423
+
+/home/cjeong/work/jake/src/include/vmmap.h,814
+#define VMMAP_H7,166
+#define GD_KT 16,320
+#define GD_KD 17,365
+#define GD_UT 18,410
+#define GD_UD 19,453
+#define GD_TSS 20,496
+#define KERNBASE 81,4104
+#define VPT 87,4418
+#define KSTACKTOP 88,4482
+#define KSTKSIZE 89,4545
+#define ULIM 90,4614
+#define UVPT 94,4835
+#define UPAGES 95,4910
+#define UENVS 96,4985
+#define UTOP 100,5131
+#define UXSTACKTOP 101,5203
+#define USTACKTOP 105,5388
+#define UTEXT 106,5427
+#define UTEMP 107,5499
+#define PFTEMP 112,5786
+#define USTABDATA 115,5890
+#define EXTPHYSMEM 120,6101
+#define IOPHYSMEM 121,6129
+typedef uint32_t ppn_t;126,6217
+typedef int32_t off_t;129,6291
+typedef uint32_t pte_t;143,7001
+typedef uint32_t pde_t;144,7025
+typedef LIST_ENTRY(page)154,7457
+struct page 156,7526
+  pagelist_entry_t pp_link;157,7540
+  uint16_t pp_ref;163,7827
+
+/home/cjeong/work/jake/src/include/assert.h,138
+#define ASSERT_H7,96
+void _panic(12,182
+#define warn(14,258
+#define panic(15,315
+#define assert(17,375
+#define static_assert(21,556
+
+/home/cjeong/work/jake/src/include/types.h,752
+#define TYPES_H6,67
+#define NULL 9,97
+typedef int bool;13,162
+typedef unsigned char uchar;16,201
+typedef unsigned char uint8_t;17,230
+typedef __signed char int8_t;18,261
+typedef unsigned short ushort;20,292
+typedef unsigned short uint16_t;21,323
+typedef short int16_t;22,356
+typedef unsigned int uint;24,380
+typedef unsigned int uint32_t;25,407
+typedef int int32_t;26,438
+typedef unsigned long long uint64_t;28,460
+typedef long long int64_t;29,497
+typedef uint32_t size_t;32,570
+typedef int32_t ssize_t;36,689
+typedef int32_t intptr_t;42,975
+typedef uint32_t uintptr_t;43,1001
+typedef uint32_t physaddr_t;44,1029
+#define MIN(48,1099
+#define MAX(54,1344
+#define ROUNDDOWN(63,1696
+#define ROUNDUP(70,1938
+#define offsetof(77,2272
+
+/home/cjeong/work/jake/src/include/mmu.h,4117
+#define MMU_H7,176
+#define EFLAGS_CF 14,312
+#define EFLAGS_PF 15,367
+#define EFLAGS_AF 16,423
+#define EFLAGS_ZF 17,488
+#define EFLAGS_SF 18,542
+#define EFLAGS_TF 19,596
+#define EFLAGS_IF 20,650
+#define EFLAGS_DF 21,711
+#define EFLAGS_OF 22,770
+#define EFLAGS_IOPL_MASK 23,828
+#define EFLAGS_IOPL_0 24,900
+#define EFLAGS_IOPL_1 25,956
+#define EFLAGS_IOPL_2 26,1012
+#define EFLAGS_IOPL_3 27,1068
+#define EFLAGS_NT 28,1124
+#define EFLAGS_RF 29,1180
+#define EFLAGS_VM 30,1236
+#define EFLAGS_AC 31,1298
+#define EFLAGS_VIF 32,1358
+#define EFLAGS_VIP 33,1425
+#define EFLAGS_ID 34,1495
+#define CR0_PE 37,1623
+#define CR0_MP 38,1685
+#define CR0_EM 39,1749
+#define CR0_TS 40,1803
+#define CR0_ET 41,1861
+#define CR0_NE 42,1920
+#define CR0_WP 43,1979
+#define CR0_AM 44,2037
+#define CR0_NW 45,2096
+#define CR0_CD 46,2157
+#define CR0_PG 47,2215
+#define NPDENTRIES 67,2959
+#define NPTENTRIES 68,3030
+#define PGSIZE 70,3100
+#define PGSHIFT 71,3158
+#define PTSIZE 73,3207
+#define PTSHIFT 75,3319
+#define PTXSHIFT 77,3369
+#define PDXSHIFT 78,3438
+#define PPN(81,3543
+#define VPN(82,3594
+#define PDX(85,3649
+#define VPD(86,3710
+#define PTX(89,3760
+#define PGOFF(92,3843
+#define PGADDR(95,3946
+#define PGROUNDUP(97,4024
+#define PGROUNDDOWN(98,4085
+#define PTE_P 101,4192
+#define PTE_W 102,4235
+#define PTE_U 103,4279
+#define PTE_PWT 104,4330
+#define PTE_PCD 105,4379
+#define PTE_A 106,4428
+#define PTE_D 107,4472
+#define PTE_PS 108,4513
+#define PTE_MBZ 109,4558
+#define PTE_ADDR(112,4664
+#define SEG_NULL 121,4822
+#define SEG(124,4893
+struct segdesc 134,5213
+  uint lim_15_0 135,5230
+  uint base_15_0 136,5296
+  uint base_23_16 137,5369
+  uint type 138,5445
+  uint s 139,5519
+  uint dpl 140,5585
+  uint p 141,5652
+  uint lim_19_16 142,5700
+  uint avl 143,5767
+  uint rsv1 144,5843
+  uint db 145,5892
+  uint g 146,5969
+  uint base_31_24 147,6040
+} segdest_t,148,6114
+} segdest_t, *segdest_p;segdest_p148,6114
+#define SEG_NULL 151,6159
+#define SEG_FAULT 154,6289
+#define SEG(157,6388
+#define SEG16(161,6614
+#define DPL_USER 168,6868
+#define STA_X 171,7000
+#define STA_E 172,7060
+#define STA_C 173,7133
+#define STA_W 174,7210
+#define STA_R 175,7280
+#define STA_A 176,7346
+#define STS_T16A 179,7457
+#define STS_LDT 180,7519
+#define STS_T16B 181,7583
+#define STS_CG16 182,7640
+#define STS_TG 183,7698
+#define STS_IG16 184,7769
+#define STS_TG16 185,7832
+#define STS_T32A 186,7890
+#define STS_T32B 187,7952
+#define STS_CG32 188,8009
+#define STS_IG32 189,8067
+#define STS_TG32 190,8130
+struct taskstate 200,8282
+  uint32_t ts_link;201,8301
+  uintptr_t ts_esp0;202,8358
+  uint16_t ts_ss0;203,8436
+  uint16_t ts_padding1;204,8511
+  uintptr_t ts_esp1;205,8535
+  uint16_t ts_ss1;206,8556
+  uint16_t ts_padding2;207,8575
+  uintptr_t ts_esp2;208,8599
+  uint16_t ts_ss2;209,8620
+  uint16_t ts_padding3;210,8639
+  physaddr_t ts_cr3;211,8663
+  uintptr_t ts_eip;212,8724
+  uint32_t ts_eflags;213,8799
+  uint32_t ts_eax;214,8821
+  uint32_t ts_ecx;215,8891
+  uint32_t ts_edx;216,8910
+  uint32_t ts_ebx;217,8929
+  uintptr_t ts_esp;218,8948
+  uintptr_t ts_ebp;219,8968
+  uint32_t ts_esi;220,8988
+  uint32_t ts_edi;221,9007
+  uint16_t ts_es;222,9026
+  uint16_t ts_padding4;223,9104
+  uint16_t ts_cs;224,9128
+  uint16_t ts_padding5;225,9146
+  uint16_t ts_ss;226,9170
+  uint16_t ts_padding6;227,9188
+  uint16_t ts_ds;228,9212
+  uint16_t ts_padding7;229,9230
+  uint16_t ts_fs;230,9254
+  uint16_t ts_padding8;231,9272
+  uint16_t ts_gs;232,9296
+  uint16_t ts_padding9;233,9314
+  uint16_t ts_ldt;234,9338
+  uint16_t ts_padding10;235,9357
+  uint16_t ts_t;236,9382
+  uint16_t ts_iomb;237,9443
+struct gatedesc 241,9557
+  unsigned gd_off_15_0 242,9575
+  unsigned gd_ss 243,9649
+  unsigned gd_args 244,9707
+  unsigned gd_rsv1 245,9783
+  unsigned gd_type 246,9857
+  unsigned gd_s 247,9923
+  unsigned gd_dpl 248,9983
+  unsigned gd_p 249,10064
+  unsigned gd_off_31_16 250,10113
+#define SETGATE(269,11237
+#define SETCALLGATE(283,11894
+struct pseudodesc 297,12648
+  uint16_t pd_lim;298,12668
+  uint32_t pd_base;299,12715
+
+/home/cjeong/work/jake/src/include/stab.h,799
+#define STAB_H7,179
+#define N_GSYM 14,364
+#define N_FNAME 15,409
+#define N_FUN 16,458
+#define N_STSYM 17,504
+#define N_LCSYM 18,557
+#define N_MAIN 19,609
+#define N_PC 20,659
+#define N_RSYM 21,711
+#define N_SLINE 22,760
+#define N_DSLINE 23,816
+#define N_BSLINE 24,872
+#define N_SSYM 25,927
+#define N_SO 26,982
+#define N_LSYM 27,1035
+#define N_BINCL 28,1081
+#define N_SOL 29,1135
+#define N_PSYM 30,1192
+#define N_EINCL 31,1242
+#define N_ENTRY 32,1290
+#define N_LBRAC 33,1343
+#define N_EXCL 34,1387
+#define N_RBRAC 35,1439
+#define N_BCOMM 36,1484
+#define N_ECOMM 37,1528
+#define N_ECOML 38,1570
+#define N_LENG 39,1625
+struct stab 42,1741
+  uint32_t n_strx;43,1755
+  uint8_t n_type;44,1818
+  uint8_t n_other;45,1864
+  uint16_t n_desc;46,1921
+  uintptr_t n_value;47,1970
+
+/home/cjeong/work/jake/src/include/error.h,204
+#define ERROR_H6,69
+#define E_UNSPECIFIED	9,153
+#define E_BAD_ENV 10,219
+#define E_INVAL 12,345
+#define E_NO_MEM	13,398
+#define E_NO_FREE_ENV	14,470
+#define E_FAULT 15,548
+#define	MAXERROR	16,596
+
+/home/cjeong/work/jake/src/include/kern/kdebug.h,246
+#define JOS_KERN_KDEBUG_H2,26
+struct Eipdebuginfo 7,133
+	const char *eip_file;eip_file8,155
+	int eip_line;9,211
+	const char *eip_fn_name;eip_fn_name11,263
+	int eip_fn_namelen;13,362
+	uintptr_t eip_fn_addr;14,411
+	int eip_fn_narg;15,468
+
+/home/cjeong/work/jake/src/include/kern/console.h,205
+#define KERNEL_CONSOLE_H6,61
+#define MONO_BASE	14,209
+#define MONO_BUF	15,234
+#define CGA_BASE	16,260
+#define CGA_BUF	17,284
+#define CRT_ROWS	19,311
+#define CRT_COLS	20,332
+#define CRT_SIZE	21,353
+
+/home/cjeong/work/jake/src/include/kern/kclock.h,311
+#define KERN_KCLOCK_H6,73
+#define IO_RTC 8,96
+#define MC_NVRAM_START 10,158
+#define MC_NVRAM_SIZE 11,236
+#define NVRAM_BASELO 14,349
+#define NVRAM_BASEHI 15,425
+#define NVRAM_EXTLO 18,550
+#define NVRAM_EXTHI 19,626
+#define NVRAM_PEXTLO 22,761
+#define NVRAM_PEXTHI 23,837
+#define NVRAM_CENTURY 26,980
+
+/home/cjeong/work/jake/src/include/kern/monitor.h,28
+#define KERN_MONITOR_H6,59
+
+/home/cjeong/work/jake/src/include/kern/pmap.h,271
+#define KERN_PMAP_H8,244
+#define TRUP(16,493
+#define PADDR(26,937
+#define KADDR(36,1368
+static inline ppn_t page2ppn(73,2449
+static inline physaddr_t page2pa(79,2583
+static inline struct page *pa2page(pa2page84,2671
+static inline void *page2kva(page2kva95,2929
+
+/home/cjeong/work/jake/src/include/java/java_class_stream.h,118
+#define JAVA_CLASS_STREAM_H8,117
+class JavaClassStream 12,162
+  unsigned _cur_pos;JavaClassStream::_cur_pos14,217
+
+/home/cjeong/work/jake/src/include/java/java_instr.h,10250
+#define JAVA_INSTR_H8,118
+#define JOP_NOP 12,164
+#define JOP_ACONST_NULL 13,200
+#define JOP_ICONST_M1 14,234
+#define JOP_ICONST_0 15,268
+#define JOP_ICONST_1 16,302
+#define JOP_ICONST_2 17,336
+#define JOP_ICONST_3 18,370
+#define JOP_ICONST_4 19,404
+#define JOP_ICONST_5 20,438
+#define JOP_LCONST_1 21,472
+#define JOP_LCONST_2 22,506
+#define JOP_FCONST_0 23,540
+#define JOP_FCONST_1 24,574
+#define JOP_FCONST_2 25,608
+#define JOP_DCONST_0 26,642
+#define JOP_DCONST_1 27,676
+#define JOP_BIPUSH 28,710
+#define JOP_SIPUSH 29,744
+#define JOP_LDC 30,778
+#define JOP_LDC_W 31,812
+#define JOP_LDC2_W 32,846
+#define JOP_ILOAD 33,880
+#define JOP_LLOAD 34,914
+#define JOP_FLOAD 35,948
+#define JOP_DLOAD 36,982
+#define JOP_ALOAD 37,1016
+#define JOP_ILOAD_0 38,1050
+#define JOP_ILOAD_1 39,1084
+#define JOP_ILOAD_2 40,1118
+#define JOP_ILOAD_3 41,1152
+#define JOP_LLOAD_0 42,1186
+#define JOP_LLOAD_1 43,1220
+#define JOP_LLOAD_2 44,1254
+#define JOP_LLOAD_3 45,1288
+#define JOP_FLOAD_0 46,1322
+#define JOP_FLOAD_1 47,1356
+#define JOP_FLOAD_2 48,1390
+#define JOP_FLOAD_3 49,1424
+#define JOP_DLOAD_0 50,1458
+#define JOP_DLOAD_1 51,1492
+#define JOP_DLOAD_2 52,1526
+#define JOP_DLOAD_3 53,1560
+#define JOP_ALOAD_0 54,1594
+#define JOP_ALOAD_1 55,1628
+#define JOP_ALOAD_2 56,1662
+#define JOP_ALOAD_3 57,1696
+#define JOP_IALOAD 58,1730
+#define JOP_LALOAD 59,1764
+#define JOP_FALOAD 60,1798
+#define JOP_DALOAD 61,1832
+#define JOP_AALOAD 62,1866
+#define JOP_BALOAD 63,1900
+#define JOP_CALOAD 64,1934
+#define JOP_SALOAD 65,1968
+#define JOP_ISTORE 66,2002
+#define JOP_LSTORE 67,2036
+#define JOP_FSTORE 68,2070
+#define JOP_DSTORE 69,2104
+#define JOP_ASTORE 70,2138
+#define JOP_ISTORE_0 71,2172
+#define JOP_ISTORE_1 72,2206
+#define JOP_ISTORE_2 73,2240
+#define JOP_ISTORE_3 74,2274
+#define JOP_LSTORE_0 75,2308
+#define JOP_LSTORE_1 76,2342
+#define JOP_LSTORE_2 77,2376
+#define JOP_LSTORE_3 78,2410
+#define JOP_FSTORE_0 79,2444
+#define JOP_FSTORE_1 80,2478
+#define JOP_FSTORE_2 81,2512
+#define JOP_FSTORE_3 82,2546
+#define JOP_DSTORE_0 83,2580
+#define JOP_DSTORE_1 84,2614
+#define JOP_DSTORE_2 85,2648
+#define JOP_DSTORE_3 86,2682
+#define JOP_ASTORE_0 87,2716
+#define JOP_ASTORE_1 88,2750
+#define JOP_ASTORE_2 89,2784
+#define JOP_ASTORE_3 90,2818
+#define JOP_IASTORE 91,2852
+#define JOP_LASTORE 92,2886
+#define JOP_FASTORE 93,2920
+#define JOP_DASTORE 94,2954
+#define JOP_AASTORE 95,2988
+#define JOP_BASTORE 96,3022
+#define JOP_CASTORE 97,3056
+#define JOP_SASTORE 98,3090
+#define JOP_POP 99,3124
+#define JOP_POP2 100,3158
+#define JOP_DUP 101,3192
+#define JOP_DUP_X1 102,3226
+#define JOP_DUP_X2 103,3260
+#define JOP_DUP2 104,3294
+#define JOP_DUP2_X1 105,3328
+#define JOP_DUP2_X2 106,3362
+#define JOP_SWAP 107,3396
+#define JOP_IADD 108,3430
+#define JOP_LADD 109,3464
+#define JOP_FADD 110,3498
+#define JOP_DADD 111,3532
+#define JOP_ISUB 112,3566
+#define JOP_LSUB 113,3600
+#define JOP_FSUB 114,3634
+#define JOP_DSUB 115,3668
+#define JOP_IMUL 116,3702
+#define JOP_LMUL 117,3736
+#define JOP_FMUL 118,3770
+#define JOP_DMUL 119,3804
+#define JOP_IDIV 120,3838
+#define JOP_LDIV 121,3872
+#define JOP_FDIV 122,3906
+#define JOP_DDIV 123,3940
+#define JOP_IREM 124,3974
+#define JOP_LREM 125,4008
+#define JOP_FREM 126,4042
+#define JOP_DREM 127,4076
+#define JOP_INEG 128,4110
+#define JOP_LNEG 129,4144
+#define JOP_FNEG 130,4178
+#define JOP_DNEG 131,4212
+#define JOP_ISHL 132,4246
+#define JOP_LSHL 133,4280
+#define JOP_ISHR 134,4314
+#define JOP_LSHR 135,4348
+#define JOP_IUSHR 136,4382
+#define JOP_LUSHR 137,4416
+#define JOP_IAND 138,4450
+#define JOP_LAND 139,4484
+#define JOP_IOR 140,4518
+#define JOP_LOR 141,4552
+#define JOP_IXOR 142,4586
+#define JOP_LXOR 143,4620
+#define JOP_IINC 144,4654
+#define JOP_I2L 145,4688
+#define JOP_I2F 146,4722
+#define JOP_I2D 147,4756
+#define JOP_L2I 148,4790
+#define JOP_L2F 149,4824
+#define JOP_L2D 150,4858
+#define JOP_F2I 151,4892
+#define JOP_F2L 152,4926
+#define JOP_F2D 153,4960
+#define JOP_D2I 154,4994
+#define JOP_D2L 155,5028
+#define JOP_D2F 156,5062
+#define JOP_I2B 157,5096
+#define JOP_I2C 158,5130
+#define JOP_I2S 159,5164
+#define JOP_LCMP 160,5198
+#define JOP_FCMPL 161,5232
+#define JOP_FCMPG 162,5266
+#define JOP_DCMPL 163,5300
+#define JOP_DCMPG 164,5334
+#define JOP_IFEQ 165,5368
+#define JOP_IFNE 166,5402
+#define JOP_IFLT 167,5436
+#define JOP_IFGE 168,5470
+#define JOP_IFGT 169,5504
+#define JOP_IFLE 170,5539
+#define JOP_IF_ICMPEQ 171,5573
+#define JOP_IF_ICMPNE 172,5607
+#define JOP_IF_ICMPLT 173,5641
+#define JOP_IF_ICMPGE 174,5675
+#define JOP_IF_ICMPGT 175,5709
+#define JOP_IF_ICMPLE 176,5743
+#define JOP_IF_ACMPEQ 177,5777
+#define JOP_IF_ACMPNE 178,5811
+#define JOP_GOTO 179,5845
+#define JOP_JSR 180,5879
+#define JOP_RET 181,5913
+#define JOP_TABLESWITCH 182,5947
+#define JOP_LOOKUPSWITCH 183,5981
+#define JOP_IRETURN 184,6015
+#define JOP_LRETURN 185,6049
+#define JOP_FRETURN 186,6083
+#define JOP_DRETURN 187,6117
+#define JOP_ARETURN 188,6151
+#define JOP_RETURN 189,6185
+#define JOP_GETSTATIC 190,6219
+#define JOP_PUTSTATIC 191,6253
+#define JOP_GETFIELD 192,6287
+#define JOP_PUTFIELD 193,6321
+#define JOP_INVOKEVIRTUAL 194,6355
+#define JOP_INVOKESPECIAL 195,6389
+#define JOP_INVOKESTATIC 196,6423
+#define JOP_INVOKEINTERFACE 197,6457
+#define JOP_UNUSED 198,6491
+#define JOP_NEW 199,6525
+#define JOP_NEWARRAY 200,6559
+#define JOP_ANEWARRAY 201,6593
+#define JOP_ARRAYLENGTH 202,6627
+#define JOP_ATHROW 203,6661
+#define JOP_CHECKCAST 204,6695
+#define JOP_INSTANCEOF 205,6729
+#define JOP_MONITORENTER 206,6763
+#define JOP_MONITOREXIT 207,6797
+#define JOP_WIDE 208,6831
+#define JOP_MULTIANEWARRAY 209,6865
+#define JOP_IFNULL 210,6899
+#define JOP_IFNONNULL 211,6933
+#define JOP_GOTO_W 212,6967
+#define JOP_JSR_W 213,7001
+#define JOP_BREAKPOINT 216,7059
+#define JOP_IMPDEP1 217,7093
+#define JOP_IMPDEP2 218,7127
+#define JOP_EXT1 221,7185
+  const char *str;str225,7238
+  int size;226,7280
+} jop_info_t, *jop_p;jop_p227,7336
+class JavaInstr 233,7436
+  enum JavaInstrTagE JavaInstr::JavaInstrTagE235,7462
+    JavaInstrConst,JavaInstr::JavaInstrTagE::JavaInstrConst236,7485
+    JavaInstrUnop,JavaInstr::JavaInstrTagE::JavaInstrUnop237,7505
+    JavaInstrInc,JavaInstr::JavaInstrTagE::JavaInstrInc238,7524
+    JavaInstrBinop,JavaInstr::JavaInstrTagE::JavaInstrBinop239,7542
+    JavaInstrPush,JavaInstr::JavaInstrTagE::JavaInstrPush240,7562
+    JavaInstrLoad,JavaInstr::JavaInstrTagE::JavaInstrLoad241,7581
+    JavaInstrStore,JavaInstr::JavaInstrTagE::JavaInstrStore242,7600
+    JavaInstrConv,JavaInstr::JavaInstrTagE::JavaInstrConv243,7620
+    JavaInstrGet,JavaInstr::JavaInstrTagE::JavaInstrGet244,7639
+    JavaInstrReturn,JavaInstr::JavaInstrTagE::JavaInstrReturn245,7657
+    JavaInstrInvoke,JavaInstr::JavaInstrTagE::JavaInstrInvoke246,7678
+    JavaInstrNewJavaInstr::JavaInstrTagE::JavaInstrNew247,7699
+  JavaInstrTagE _tag;JavaInstr::_tag251,7733
+  unsigned _opcode JavaInstr::_opcode252,7755
+  unsigned _numOperands JavaInstr::_numOperands253,7785
+  JavaInstr(JavaInstr::JavaInstr256,7824
+  ~JavaInstr(JavaInstr::~JavaInstr257,7885
+class JavaConstInstr 269,8221
+  ~JavaConstInstr(JavaConstInstr::~JavaConstInstr272,8296
+class JavaLoadInstr 279,8601
+  unsigned _index JavaLoadInstr::_index281,8651
+  unsigned _pad JavaLoadInstr::_pad282,8724
+  ~JavaLoadInstr(JavaLoadInstr::~JavaLoadInstr286,8791
+class JavaStoreInstr 294,9147
+  unsigned _index JavaStoreInstr::_index296,9198
+  unsigned _pad JavaStoreInstr::_pad297,9271
+  ~JavaStoreInstr(JavaStoreInstr::~JavaStoreInstr301,9339
+class JavaPushInstr 305,9388
+  unsigned _byte1 JavaPushInstr::_byte1307,9438
+  unsigned _byte2 JavaPushInstr::_byte2308,9462
+  unsigned _pad JavaPushInstr::_pad309,9486
+  ~JavaPushInstr(JavaPushInstr::~JavaPushInstr313,9563
+class JavaUnopInstr 320,9652
+  JavaUnopInstr(JavaUnopInstr::JavaUnopInstr322,9701
+  ~JavaUnopInstr(JavaUnopInstr::~JavaUnopInstr323,9759
+class JavaIncInstr 327,9797
+  unsigned _lvarIndex JavaIncInstr::_lvarIndex329,9846
+  unsigned _constVal JavaIncInstr::_constVal330,9873
+  unsigned _pad JavaIncInstr::_pad331,9900
+  JavaIncInstr(JavaIncInstr::JavaIncInstr333,9936
+  ~JavaIncInstr(JavaIncInstr::~JavaIncInstr335,10038
+class JavaBinopInstr 344,10342
+  JavaBinopInstr(JavaBinopInstr::JavaBinopInstr346,10392
+  ~JavaBinopInstr(JavaBinopInstr::~JavaBinopInstr347,10452
+class JavaConvInstr 352,10564
+  JavaConvInstr(JavaConvInstr::JavaConvInstr355,10614
+  ~JavaConvInstr(JavaConvInstr::~JavaConvInstr356,10672
+class JavaCmpInstr 360,10700
+class JavaCmplInstr 364,10745
+class JavaCmpgInstr 367,10790
+class JavaIfCompInstr 370,10835
+class JavaGetInstr 374,10908
+  unsigned _cpoolIndex JavaGetInstr::_cpoolIndex376,10957
+  unsigned _pad JavaGetInstr::_pad377,10986
+  JavaGetInstr(JavaGetInstr::JavaGetInstr380,11024
+  ~JavaGetInstr(JavaGetInstr::~JavaGetInstr382,11111
+class JavaInvokeInstr 388,11244
+  unsigned _cpoolIndex JavaInvokeInstr::_cpoolIndex390,11296
+  unsigned _count JavaInvokeInstr::_count391,11325
+  unsigned _pad JavaInvokeInstr::_pad392,11354
+  ~JavaInvokeInstr(JavaInvokeInstr::~JavaInvokeInstr396,11426
+class JavaReturnInstr 403,11584
+  ~JavaReturnInstr(JavaReturnInstr::~JavaReturnInstr406,11661
+class JavaNewInstr 410,11737
+  enum JavaArrayTypeE JavaNewInstr::JavaArrayTypeE412,11785
+    JavaarrayBoolean JavaNewInstr::JavaArrayTypeE::JavaarrayBoolean413,11809
+    JavaArrayChar JavaNewInstr::JavaArrayTypeE::JavaArrayChar414,11836
+    JavaArrayFloat JavaNewInstr::JavaArrayTypeE::JavaArrayFloat415,11863
+    JavaArrayDouble JavaNewInstr::JavaArrayTypeE::JavaArrayDouble416,11890
+    JavaArrayByte JavaNewInstr::JavaArrayTypeE::JavaArrayByte417,11917
+    JavaArrayShort JavaNewInstr::JavaArrayTypeE::JavaArrayShort418,11944
+    JavaArrayInt JavaNewInstr::JavaArrayTypeE::JavaArrayInt419,11971
+    JavaArrayLong JavaNewInstr::JavaArrayTypeE::JavaArrayLong420,11998
+  unsigned _cpoolIndex JavaNewInstr::_cpoolIndex424,12039
+  unsigned _arrayType JavaNewInstr::_arrayType425,12068
+  unsigned _dimension JavaNewInstr::_dimension426,12097
+  ~JavaNewInstr(JavaNewInstr::~JavaNewInstr430,12174
+
+/home/cjeong/work/jake/src/include/java/java_type.h,3218
+#define RZ_JAVA_TYPE_H8,97
+enum JavaTypeE 15,269
+  JavaTypeInvalid 16,286
+  JavaTypeUnknown 17,314
+  JavaTypeVoid 18,341
+  JavaTypeBoolean 19,368
+  JavaTypeByte 20,415
+  JavaTypeChar 21,464
+  JavaTypeShort 22,491
+  JavaTypeInt 23,518
+  JavaTypeLong 24,545
+  JavaTypeFloat 25,572
+  JavaTypeDouble 26,627
+  JavaTypeClass 27,654
+  JavaTypeInterface 28,712
+  JavaTypeArray 29,739
+  JavaTypeTypeVar 30,784
+#define PRIMITIVE_TYPE_P(33,836
+#define INTEGRAL_TYPE_P(35,923
+#define FLOATINGPOINT_TYPE_P(37,1008
+#define NUMERIC_TYPE_P(39,1099
+#define REFERENCE_TYPE_P(41,1183
+#define VOID_TYPE_P(43,1269
+class JavaType 46,1321
+  JavaTypeE _tag;JavaType::_tag48,1349
+  JavaType(JavaType::JavaType51,1376
+  ~JavaType(JavaType::~JavaType52,1414
+class JavaBooleanType 59,1504
+  JavaBooleanType(JavaBooleanType::JavaBooleanType62,1555
+  ~JavaBooleanType(JavaBooleanType::~JavaBooleanType63,1607
+  inline int width(JavaBooleanType::width65,1633
+class JavaByteType 68,1678
+  JavaByteType(JavaByteType::JavaByteType70,1725
+  ~JavaByteType(JavaByteType::~JavaByteType71,1771
+  inline int width(JavaByteType::width73,1794
+class JavaShortType 76,1839
+  JavaShortType(JavaShortType::JavaShortType78,1887
+  ~JavaShortType(JavaShortType::~JavaShortType79,1935
+  inline int width(JavaShortType::width81,1959
+class JavaIntType 84,2005
+  JavaIntType(JavaIntType::JavaIntType86,2051
+  ~JavaIntType(JavaIntType::~JavaIntType87,2095
+  inline int width(JavaIntType::width89,2117
+class JavaLongType 92,2163
+  inline int width(JavaLongType::width94,2210
+class JavaFloatType 97,2256
+  JavaFloatType(JavaFloatType::JavaFloatType99,2304
+  ~JavaFloatType(JavaFloatType::~JavaFloatType100,2352
+  inline int width(JavaFloatType::width102,2376
+class JavaDoubleType 105,2422
+  JavaDoubleType(JavaDoubleType::JavaDoubleType107,2471
+  ~JavaDoubleType(JavaDoubleType::~JavaDoubleType108,2521
+  inline int width(JavaDoubleType::width110,2546
+class JavaCharType 113,2592
+  JavaCharType(JavaCharType::JavaCharType115,2639
+  ~JavaCharType(JavaCharType::~JavaCharType116,2685
+  inline int width(JavaCharType::width118,2708
+class JavaClassType 121,2753
+  JavaClassType(JavaClassType::JavaClassType123,2801
+  ~JavaClassType(JavaClassType::~JavaClassType124,2849
+  inline int width(JavaClassType::width126,2873
+class JavaInterfaceType 129,2918
+  JavaInterfaceType(JavaInterfaceType::JavaInterfaceType131,2970
+  ~JavaInterfaceType(JavaInterfaceType::~JavaInterfaceType132,3026
+  inline int width(JavaInterfaceType::width134,3054
+class JavaTypeVarType 137,3099
+  JavaTypeVarType(JavaTypeVarType::JavaTypeVarType140,3150
+  ~JavaTypeVarType(JavaTypeVarType::~JavaTypeVarType141,3202
+  inline int width(JavaTypeVarType::width143,3230
+class JavaArrayType 146,3275
+  std::vector<int> _dims;JavaArrayType::_dims148,3324
+  JavaType *_baseType;JavaArrayType::_baseType149,3350
+  JavaArrayType(JavaArrayType::JavaArrayType152,3382
+  ~JavaArrayType(JavaArrayType::~JavaArrayType153,3455
+class JavaVoidType 161,3592
+  JavaVoidType(JavaVoidType::JavaVoidType163,3639
+  ~JavaVoidType(JavaVoidType::~JavaVoidType164,3685
+  inline int width(JavaVoidType::width166,3708
+
+/home/cjeong/work/jake/src/include/java/java_vm.h,539
+#define JAVA_VM_H7,100
+class JavaVMThread 17,254
+  unsigned long _pc;JavaVMThread::_pc19,284
+  JavaVMFrame *_frame_stack;JavaVMThread::_frame_stack20,305
+class JavaVMHeap 35,478
+public:JavaVMHeap::public37,506
+class JavaVMFrame 42,567
+  JavaVMFrame *_prev;JavaVMFrame::_prev44,596
+struct ltstr 51,680
+  bool operator()(ltstr::operator()52,695
+class JavaVMMethodArea 58,812
+  std::map<JavaVMMethodArea::std::map60,845
+class JavaVMMethod 64,906
+  std::vector<JavaInstr *> _instructions;JavaVMMethod::_instructions66,936
+
+/home/cjeong/work/jake/src/include/java/java_constant_pool.h,93
+#define JAVA_CONSTANT_POOL_H8,147
+class JavaConstant 12,206
+class JavaConstantPool 15,231
+
+/home/cjeong/work/jake/src/include/java/java_runtime.h,187
+#define RZ_JAVA_RUNTIME_H8,118
+enum JavaRuntimeLocE 11,146
+  JavaLocConstPool,12,169
+  JavaLocLocalVar,13,189
+  JavaLocStackFrame,14,208
+  JavaLocHeap,15,229
+  JavaEvalStack16,244
+
+/home/cjeong/work/jake/src/include/java/java_classfile.h,16562
+#define JAVA_CLASSFILE_H8,119
+#define JAVA_CLASSFILE_MAGIC 16,268
+#define JAVA_CLASS_ACC_PUBLIC 19,358
+#define JAVA_CLASS_ACC_FINAL 20,405
+#define JAVA_CLASS_ACC_SUPER 21,452
+#define JAVA_CLASS_ACC_INTERFACE 22,499
+#define JAVA_CLASS_ACC_ABSTRACT 23,546
+#define JAVA_CLASS_ACC_SYNTETIC 24,593
+#define JAVA_CLASS_ACC_ANNOTATION 25,640
+#define JAVA_CLASS_ACC_ENUM 26,687
+#define JAVA_INNER_CLASS_ACC_PUBLIC 29,780
+#define JAVA_INNER_CLASS_ACC_PRIVATE 30,827
+#define JAVA_INNER_CLASS_ACC_PROTECTED 31,874
+#define JAVA_INNER_CLASS_ACC_STATIC 32,921
+#define JAVA_INNER_CLASS_ACC_FINAL 33,968
+#define JAVA_INNER_CLASS_ACC_INTERFACE 34,1015
+#define JAVA_INNER_CLASS_ACC_ABSTRACT 35,1062
+#define JAVA_FIELD_ACC_PUBLIC 38,1148
+#define JAVA_FIELD_ACC_PRIVATE 39,1195
+#define JAVA_FIELD_ACC_PROTECTED 40,1243
+#define JAVA_FIELD_ACC_STATIC 41,1290
+#define JAVA_FIELD_ACC_FINAL 42,1337
+#define JAVA_FIELD_ACC_VOLATILE 43,1384
+#define JAVA_FIELD_ACC_TRANSIENT 44,1431
+#define JAVA_METHOD_ACC_PUBLIC 47,1518
+#define JAVA_METHOD_ACC_PRIVATE 48,1565
+#define JAVA_METHOD_ACC_PROTECTED 49,1613
+#define JAVA_METHOD_ACC_STATIC 50,1660
+#define JAVA_METHOD_ACC_FINAL 51,1707
+#define JAVA_METHOD_ACC_SYNCHRONIZED 52,1754
+#define JAVA_METHOD_ACC_NATIVE 53,1801
+#define JAVA_METHOD_ACC_ABSTRACT 54,1848
+#define JAVA_METHOD_ACC_STRICT 55,1895
+#define JAVA_VERSION_J2SE_7 58,1968
+#define JAVA_VERSION_J2SE_6 59,2015
+#define JAVA_VERSION_J2SE_5 60,2062
+#define JAVA_VERIONS_JDK_1_4 61,2109
+#define JAVA_VERSION_JDK_1_3 62,2156
+#define JAVA_VERSION_JDK_1_2 63,2203
+#define JAVA_VERSION_JDK_1_1 64,2250
+class JavaClassFileInfo 69,2377
+  enum JavaClassFileInfoE JavaClassFileInfo::JavaClassFileInfoE71,2411
+    ConstInfo,JavaClassFileInfo::JavaClassFileInfoE::ConstInfo72,2439
+    FieldInfo,JavaClassFileInfo::JavaClassFileInfoE::FieldInfo73,2454
+    MethodInfo,JavaClassFileInfo::JavaClassFileInfoE::MethodInfo74,2469
+    AttrInfoJavaClassFileInfo::JavaClassFileInfoE::AttrInfo75,2485
+  JavaClassFileInfoE _infoCode;JavaClassFileInfo::_infoCode79,2513
+  JavaClassFileInfo(JavaClassFileInfo::JavaClassFileInfo82,2554
+  ~JavaClassFileInfo(JavaClassFileInfo::~JavaClassFileInfo83,2615
+class JavaConstInfo 87,2674
+  enum JavaConstE JavaConstInfo::JavaConstE89,2732
+    ConstClass JavaConstInfo::JavaConstE::ConstClass90,2752
+    ConstFieldref JavaConstInfo::JavaConstE::ConstFieldref91,2786
+    ConstMethodref JavaConstInfo::JavaConstE::ConstMethodref92,2820
+    ConstInterfaceMethodref JavaConstInfo::JavaConstE::ConstInterfaceMethodref93,2854
+    ConstString JavaConstInfo::JavaConstE::ConstString94,2888
+    ConstInteger JavaConstInfo::JavaConstE::ConstInteger95,2922
+    ConstFloat JavaConstInfo::JavaConstE::ConstFloat96,2956
+    ConstLong JavaConstInfo::JavaConstE::ConstLong97,2990
+    ConstDouble JavaConstInfo::JavaConstE::ConstDouble98,3024
+    ConstNameAndType JavaConstInfo::JavaConstE::ConstNameAndType99,3058
+    ConstUtf8 JavaConstInfo::JavaConstE::ConstUtf8100,3092
+  JavaConstE _tag;JavaConstInfo::_tag104,3140
+  JavaConstInfo(JavaConstInfo::JavaConstInfo107,3168
+  ~JavaConstInfo(JavaConstInfo::~JavaConstInfo109,3247
+  JavaConstE tag(JavaConstInfo::tag111,3271
+class JavaClassInfo 114,3311
+  u2 nameIndex;JavaClassInfo::nameIndex116,3364
+  JavaClassInfo(JavaClassInfo::JavaClassInfo119,3389
+  ~JavaClassInfo(JavaClassInfo::~JavaClassInfo121,3462
+class JavaFieldrefInfo 124,3489
+  u2 classIndex;JavaFieldrefInfo::classIndex126,3545
+  u2 nameAndTypeIndex;JavaFieldrefInfo::nameAndTypeIndex127,3562
+  JavaFieldrefInfo(JavaFieldrefInfo::JavaFieldrefInfo130,3594
+  ~JavaFieldrefInfo(JavaFieldrefInfo::~JavaFieldrefInfo132,3702
+class JavaMethodrefInfo 135,3732
+  u2 classIndex;JavaMethodrefInfo::classIndex137,3789
+  u2 nameAndTypeIndex;JavaMethodrefInfo::nameAndTypeIndex138,3806
+  JavaMethodrefInfo(JavaMethodrefInfo::JavaMethodrefInfo141,3838
+  ~JavaMethodrefInfo(JavaMethodrefInfo::~JavaMethodrefInfo143,3947
+class JavaInterfaceMethodrefInfo 146,3978
+  u2 classIndex;JavaInterfaceMethodrefInfo::classIndex148,4044
+  u2 nameAndTypeIndex;JavaInterfaceMethodrefInfo::nameAndTypeIndex149,4061
+  JavaInterfaceMethodrefInfo(JavaInterfaceMethodrefInfo::JavaInterfaceMethodrefInfo152,4093
+  ~JavaInterfaceMethodrefInfo(JavaInterfaceMethodrefInfo::~JavaInterfaceMethodrefInfo155,4224
+class JavaStringInfo 158,4264
+  u2 stringIndex;JavaStringInfo::stringIndex160,4318
+  JavaStringInfo(JavaStringInfo::JavaStringInfo163,4345
+  ~JavaStringInfo(JavaStringInfo::~JavaStringInfo165,4422
+class JavaIntegerInfo 168,4450
+  u4 bytes;JavaIntegerInfo::bytes170,4505
+  JavaIntegerInfo(JavaIntegerInfo::JavaIntegerInfo173,4526
+  ~JavaIntegerInfo(JavaIntegerInfo::~JavaIntegerInfo175,4599
+class JavaFloatInfo 178,4628
+  u4 bytes;JavaFloatInfo::bytes180,4681
+  JavaFloatInfo(JavaFloatInfo::JavaFloatInfo183,4702
+  ~JavaFloatInfo(JavaFloatInfo::~JavaFloatInfo185,4771
+class JavaLongInfo 188,4798
+  u4 highBytes;JavaLongInfo::highBytes190,4850
+  u4 lowBytes;JavaLongInfo::lowBytes191,4866
+  JavaLongInfo(JavaLongInfo::JavaLongInfo194,4892
+  ~JavaLongInfo(JavaLongInfo::~JavaLongInfo196,4982
+class JavaDoubleInfo 199,5008
+  u4 highBytes;JavaDoubleInfo::highBytes201,5062
+  u4 lowBytes;JavaDoubleInfo::lowBytes202,5078
+  JavaDoubleInfo(JavaDoubleInfo::JavaDoubleInfo205,5102
+  ~JavaDoubleInfo(JavaDoubleInfo::~JavaDoubleInfo207,5196
+class JavaNameAndTypeInfo 210,5224
+  u2 nameIndex;JavaNameAndTypeInfo::nameIndex212,5283
+  u2 descIndex;JavaNameAndTypeInfo::descIndex213,5299
+  JavaNameAndTypeInfo(JavaNameAndTypeInfo::JavaNameAndTypeInfo216,5324
+class JavaUtf8Info 221,5459
+  u2 length;JavaUtf8Info::length223,5511
+  char *bytes;JavaUtf8Info::bytes224,5524
+class JavaFieldInfo 233,5635
+  unsigned _accessFlags JavaFieldInfo::_accessFlags235,5693
+  unsigned _nameIndex JavaFieldInfo::_nameIndex236,5723
+  unsigned _descIndex JavaFieldInfo::_descIndex237,5753
+  unsigned _pad JavaFieldInfo::_pad238,5783
+  std::vector<JavaAttr *> _attributes;JavaFieldInfo::_attributes240,5814
+  ~JavaFieldInfo(JavaFieldInfo::~JavaFieldInfo244,5903
+  std::vector<JavaAttr *>& attributes(JavaFieldInfo::attributes248,5972
+class JavaMethodInfo 253,6078
+  unsigned _accessFlags JavaMethodInfo::_accessFlags255,6130
+  unsigned _nameIndex JavaMethodInfo::_nameIndex256,6160
+  unsigned _descIndex JavaMethodInfo::_descIndex257,6190
+  unsigned _pad JavaMethodInfo::_pad258,6220
+  std::vector<JavaAttr *> _attributes;JavaMethodInfo::_attributes260,6251
+  JavaCodeAttr *_codeAttr;JavaMethodInfo::_codeAttr261,6290
+  ~JavaMethodInfo(JavaMethodInfo::~JavaMethodInfo265,6368
+  std::vector<JavaAttr *>& attributes(JavaMethodInfo::attributes270,6484
+class JavaAttr 274,6569
+  enum JavaAttrE JavaAttr::JavaAttrE276,6621
+    AttrConstantValue,JavaAttr::JavaAttrE::AttrConstantValue277,6640
+    AttrCode,JavaAttr::JavaAttrE::AttrCode278,6663
+    AttrStackMapTable,JavaAttr::JavaAttrE::AttrStackMapTable279,6677
+    AttrExceptions,JavaAttr::JavaAttrE::AttrExceptions280,6700
+    AttrInnerClasses,JavaAttr::JavaAttrE::AttrInnerClasses281,6720
+    AttrEnclosingMethod,JavaAttr::JavaAttrE::AttrEnclosingMethod282,6742
+    AttrSynthetic,JavaAttr::JavaAttrE::AttrSynthetic283,6767
+    AttrSourceFile,JavaAttr::JavaAttrE::AttrSourceFile284,6786
+    AttrSourceDebugExtension,JavaAttr::JavaAttrE::AttrSourceDebugExtension285,6806
+    AttrLineNumberTable,JavaAttr::JavaAttrE::AttrLineNumberTable286,6836
+    AttrLocalVariableTable,JavaAttr::JavaAttrE::AttrLocalVariableTable287,6861
+    AttrLocalVariableTypeTable,JavaAttr::JavaAttrE::AttrLocalVariableTypeTable288,6889
+    AttrDeprecated,JavaAttr::JavaAttrE::AttrDeprecated289,6921
+    AttrRuntimeVisibleAnnotations,JavaAttr::JavaAttrE::AttrRuntimeVisibleAnnotations290,6941
+    AttrRuntimeInvisibleAnnotations,JavaAttr::JavaAttrE::AttrRuntimeInvisibleAnnotations291,6976
+    AttrRuntimeVisibleParameterAnnotations,JavaAttr::JavaAttrE::AttrRuntimeVisibleParameterAnnotations292,7013
+    AttrRuntimeInvisibleParameterAnnotations,JavaAttr::JavaAttrE::AttrRuntimeInvisibleParameterAnnotations293,7057
+    AttrAnnotationDefault,JavaAttr::JavaAttrE::AttrAnnotationDefault294,7103
+    AttrUserDefinedJavaAttr::JavaAttrE::AttrUserDefined295,7130
+  JavaAttrE _attrCode;JavaAttr::_attrCode299,7165
+  JavaAttr(JavaAttr::JavaAttr302,7197
+  ~JavaAttr(JavaAttr::~JavaAttr303,7269
+class JavaConstantValueAttr 308,7335
+  u2 _valueIndex;JavaConstantValueAttr::_valueIndex310,7392
+  JavaConstantValueAttr(JavaConstantValueAttr::JavaConstantValueAttr313,7419
+  ~JavaConstantValueAttr(JavaConstantValueAttr::~JavaConstantValueAttr314,7499
+typedef struct JavaException 319,7575
+  u2 start_pc;JavaException::start_pc320,7606
+  u2 end_pc;JavaException::end_pc321,7621
+  u2 handler_pc;JavaException::handler_pc322,7634
+  u2 catch_type;JavaException::catch_type323,7651
+} JavaException_t, *JavaException_p;JavaException_p324,7668
+class JavaCodeAttr 326,7706
+  u2 _nameIndex;JavaCodeAttr::_nameIndex328,7754
+  u4 _length;JavaCodeAttr::_length329,7771
+  u2 _maxStack;JavaCodeAttr::_maxStack330,7785
+  u2 _maxLocals;JavaCodeAttr::_maxLocals331,7801
+  u4 _codeLength;JavaCodeAttr::_codeLength332,7818
+  std::vector<u1> _code;JavaCodeAttr::_code333,7836
+  std::vector<JavaException_p> _exceptions;JavaCodeAttr::_exceptions334,7861
+  std::vector<JavaAttr *> _attributes;JavaCodeAttr::_attributes335,7905
+  JavaCodeAttr(JavaCodeAttr::JavaCodeAttr338,7955
+  std::vector<u1>& code(JavaCodeAttr::code344,8092
+  std::vector<JavaException_p>& exceptions(JavaCodeAttr::exceptions345,8136
+  std::vector<JavaAttr *>& attributes(JavaCodeAttr::attributes346,8205
+class JavaVTypeInfo 349,8273
+  enum JavaVarInfoE JavaVTypeInfo::JavaVarInfoE351,8303
+    VarInfoTop,JavaVTypeInfo::JavaVarInfoE::VarInfoTop352,8325
+    VarInfoInteger,JavaVTypeInfo::JavaVarInfoE::VarInfoInteger353,8341
+    VarInfoFloat,JavaVTypeInfo::JavaVarInfoE::VarInfoFloat354,8361
+    VarInfoLong,JavaVTypeInfo::JavaVarInfoE::VarInfoLong355,8379
+    VarInfoDouble,JavaVTypeInfo::JavaVarInfoE::VarInfoDouble356,8396
+    VarInfoNull,JavaVTypeInfo::JavaVarInfoE::VarInfoNull357,8415
+    VarInfoUninitializedThis,JavaVTypeInfo::JavaVarInfoE::VarInfoUninitializedThis358,8432
+    VarInfoObject,JavaVTypeInfo::JavaVarInfoE::VarInfoObject359,8462
+    VarInfoUninitializedJavaVTypeInfo::JavaVarInfoE::VarInfoUninitialized360,8481
+  unsigned _tag JavaVTypeInfo::_tag364,8521
+  unsigned _cpoolIndex JavaVTypeInfo::_cpoolIndex365,8550
+  unsigned _pad JavaVTypeInfo::_pad366,8579
+  JavaVTypeInfo(JavaVTypeInfo::JavaVTypeInfo369,8620
+  ~JavaVTypeInfo(JavaVTypeInfo::~JavaVTypeInfo370,8666
+class JavaStackMapFrame 377,8798
+  enum JavaStackFrameE JavaStackMapFrame::JavaStackFrameE379,8832
+    FrameSame JavaStackMapFrame::JavaStackFrameE::FrameSame380,8857
+    FrameSameLocals JavaStackMapFrame::JavaStackFrameE::FrameSameLocals381,8891
+    FrameSameLocalsExtended JavaStackMapFrame::JavaStackFrameE::FrameSameLocalsExtended382,8925
+    FrameChop JavaStackMapFrame::JavaStackFrameE::FrameChop383,8959
+    FrameSameExtended JavaStackMapFrame::JavaStackFrameE::FrameSameExtended384,8993
+    FrameAppend JavaStackMapFrame::JavaStackFrameE::FrameAppend385,9027
+    FrameFull JavaStackMapFrame::JavaStackFrameE::FrameFull386,9061
+  unsigned _tag JavaStackMapFrame::_tag390,9109
+  unsigned _frameType JavaStackMapFrame::_frameType391,9138
+  unsigned _offsetDelta JavaStackMapFrame::_offsetDelta392,9167
+  std::vector<JavaVTypeInfo *> _stack;JavaStackMapFrame::_stack394,9200
+  std::vector<JavaVTypeInfo *> _locals;JavaStackMapFrame::_locals395,9239
+  ~JavaStackMapFrame(JavaStackMapFrame::~JavaStackMapFrame399,9315
+  std::vector<JavaVTypeInfo *>& locals(JavaStackMapFrame::locals405,9463
+  std::vector<JavaVTypeInfo *>& stack(JavaStackMapFrame::stack406,9524
+class JavaStackMapTableAttr 409,9587
+  std::vector<JavaStackMapFrame *> _frames;JavaStackMapTableAttr::_frames411,9644
+  JavaStackMapTableAttr(JavaStackMapTableAttr::JavaStackMapTableAttr414,9697
+  std::vector<JavaStackMapFrame *>& frames(JavaStackMapTableAttr::frames417,9786
+class JavaExceptionsAttr 420,9855
+  std::vector<JavaClassInfo *> _exceptions;JavaExceptionsAttr::_exceptions422,9909
+  JavaExceptionsAttr(JavaExceptionsAttr::JavaExceptionsAttr425,9962
+  ~JavaExceptionsAttr(JavaExceptionsAttr::~JavaExceptionsAttr426,10016
+  std::vector<JavaClassInfo *>& exceptions(JavaExceptionsAttr::exceptions428,10045
+typedef struct JavaInnerClass 431,10118
+  u2 inner_class_info_idx;JavaInnerClass::inner_class_info_idx432,10150
+  u2 outer_class_info_idx;JavaInnerClass::outer_class_info_idx433,10177
+  u2 inner_name_idx;JavaInnerClass::inner_name_idx434,10204
+  u2 inner_class_access_flags;JavaInnerClass::inner_class_access_flags435,10225
+} JavaInnerClass_t, *JavaInnerClass_p;JavaInnerClass_p436,10256
+class JavaInnerClassesAttr 437,10295
+  std::vector<JavaInnerClass_p> _classes;JavaInnerClassesAttr::_classes439,10351
+  JavaInnerClassesAttr(JavaInnerClassesAttr::JavaInnerClassesAttr442,10404
+  ~JavaInnerClassesAttr(JavaInnerClassesAttr::~JavaInnerClassesAttr443,10462
+  std::vector<JavaInnerClass_p>& classes(JavaInnerClassesAttr::classes445,10493
+class JavaSyntheticAttr 448,10561
+  JavaSyntheticAttr(JavaSyntheticAttr::JavaSyntheticAttr450,10613
+  ~JavaSyntheticAttr(JavaSyntheticAttr::~JavaSyntheticAttr451,10665
+class JavaSourceFileAttr 454,10696
+  u2 _sourceFileIndex;JavaSourceFileAttr::_sourceFileIndex456,10750
+  JavaSourceFileAttr(JavaSourceFileAttr::JavaSourceFileAttr459,10782
+typedef struct JavaLineNumber 464,10918
+  u2 start_pc;JavaLineNumber::start_pc465,10950
+  u2 line_number;JavaLineNumber::line_number466,10965
+} JavaLineNumber_t, *JavaLineNumber_p;JavaLineNumber_p467,10983
+class JavaLineNumberTableAttr 469,11023
+  std::vector<JavaLineNumber_p> _lineNumbers;JavaLineNumberTableAttr::_lineNumbers471,11082
+  JavaLineNumberTableAttr(JavaLineNumberTableAttr::JavaLineNumberTableAttr474,11137
+  std::vector<JavaLineNumber_p>& lineNumbers(JavaLineNumberTableAttr::lineNumbers477,11232
+typedef struct JavaLocalVariable 480,11308
+  u2 start_pc;JavaLocalVariable::start_pc481,11343
+  u2 length;JavaLocalVariable::length482,11358
+  u2 name_idx;JavaLocalVariable::name_idx483,11371
+  u2 desc_idx;JavaLocalVariable::desc_idx484,11386
+  u2 idx;JavaLocalVariable::idx485,11401
+} JavaLocalVariable_t, *JavaLocalVariable_p;JavaLocalVariable_p486,11411
+class JavaLocalVariableTableAttr 488,11457
+  std::vector<JavaLocalVariable_p> _localVars;JavaLocalVariableTableAttr::_localVars490,11519
+  JavaLocalVariableTableAttr(JavaLocalVariableTableAttr::JavaLocalVariableTableAttr493,11575
+  std::vector<JavaLocalVariable_p>& localVars(JavaLocalVariableTableAttr::localVars496,11679
+class JavaDeprecatedAttr 499,11754
+  JavaDeprecatedAttr(JavaDeprecatedAttr::JavaDeprecatedAttr501,11807
+  ~JavaDeprecatedAttr(JavaDeprecatedAttr::~JavaDeprecatedAttr502,11861
+class JavaClassFile 506,11915
+  unsigned _minorVersion JavaClassFile::_minorVersion508,11964
+  unsigned _majorVersion JavaClassFile::_majorVersion509,11996
+  unsigned _thisClass JavaClassFile::_thisClass510,12028
+  unsigned _superClass JavaClassFile::_superClass511,12060
+  unsigned _accessFlags JavaClassFile::_accessFlags512,12092
+  unsigned _pad JavaClassFile::_pad513,12124
+  std::vector<u2> _interfaces;JavaClassFile::_interfaces515,12157
+  std::vector<JavaConstInfo *> _consts;JavaClassFile::_consts516,12188
+  std::vector<JavaFieldInfo *> _fields;JavaClassFile::_fields517,12228
+  std::vector<JavaMethodInfo *> _methods;JavaClassFile::_methods518,12268
+  std::vector<JavaAttr *> _attributes;JavaClassFile::_attributes519,12310
+  int numInterfaces(JavaClassFile::numInterfaces531,12617
+  int numConsts(JavaClassFile::numConsts532,12670
+  int numFields(JavaClassFile::numFields533,12715
+  int numMethods(JavaClassFile::numMethods534,12760
+  int numAttrs(JavaClassFile::numAttrs535,12807
+  std::vector<u2>& interfaces(JavaClassFile::interfaces537,12856
+  std::vector<JavaConstInfo *>& consts(JavaClassFile::consts538,12912
+  std::vector<JavaFieldInfo *>& fields(JavaClassFile::fields539,12973
+  std::vector<JavaMethodInfo *>& methods(JavaClassFile::methods540,13034
+  std::vector<JavaAttr *>& attributes(JavaClassFile::attributes541,13098
+  FILE *_fp;JavaClassFile::_fp545,13225
+
+/home/cjeong/work/jake/src/include/java/java_thread.h,255
+#define JAVA_THREAD_H8,117
+enum JavaThreadStateE 11,141
+  JavaRunnable,12,165
+  JavaWaiting,13,181
+  JavaRunning14,196
+enum JavaThreadLocationE 17,214
+  JavaInHW,18,241
+  JavaInSW19,253
+class JavaThreadI 22,268
+class JavaThreadSchedulerI 34,499
+
+/home/cjeong/work/jake/src/include/java/java_base.h,106
+#define JAVA_BASE_H8,79
+typedef uint8   u1;11,115
+typedef uint16  u2;12,135
+typedef uint32  u4;13,155
+
+/home/cjeong/work/jake/src/include/java/java_mgr.h,98
+#define RZ_JAVA_MGR_H8,107
+class JavaMgr 13,179
+  JavaMgr *_instance;JavaMgr::_instance15,204
+
+kern/Makefile.sub,0
+
+boot/sign.pl,0
+
+boot/Makefile.sub,0

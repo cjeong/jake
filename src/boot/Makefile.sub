@@ -1,0 +1,31 @@
+# @file Makefile.sub
+# @desc partial Makefile for boot block, to be included by root Makefile;
+#       bootblock is a bootstrap code to be stored in the disk boot sector 
+#
+objdirs += boot
+
+boot_objs := $(blddir)/boot/bootasm.o $(blddir)/boot/bootmain.o
+
+
+$(blddir)/boot/%.o: boot/%.c
+	@echo + cc -Os $<
+	@mkdir -p $(@D)
+	$(V)$(CC) $(KERN_CFLAGS) -Os -c -o $@ $<
+
+$(blddir)/boot/%.o: boot/%.S
+	@echo + as $<
+	@mkdir -p $(@D)
+	$(V)$(CC) $(KERN_CFLAGS) -c -o $@ $<
+
+$(blddir)/boot/main.o: boot/bootmain.c
+	@echo + cc -Os $<
+	$(V)$(CC) $(KERN_CFLAGS) -0s -c -o $(blddir)/boot/bootmain.o boot/bootmain.c
+
+# boot image:
+$(blddir)/boot/boot: $(boot_objs)
+	@echo + ld boot/boot
+	$(V)$(LD) $(LDFLAGS) -N -e start -Ttext 0x7C00 -o $@.out $^
+	@echo + objdump/copy boot/boot
+	$(V)$(OBJDUMP) -S $@.out > $@.asm
+	$(V)$(OBJCOPY) -S -O binary -j .text $@.out $@
+	$(V)$(PERL) boot/sign.pl $(blddir)/boot/boot

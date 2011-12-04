@@ -1,0 +1,75 @@
+# @file Makefile.sub
+# @desc partial Makefile for kern image, to be included by root Makefile
+#
+objdirs += kern
+
+
+KERN_LDFLAGS := $(LDFLAGS) -T kern/kernel.ld -nostdlib
+
+# entry.S must be first, so that it's the first code in the text segment;
+# we also snatch the use of a couple handy source files from the lib 
+# directory, to avoid gratuitous code duplication
+kern_sources :=	kern/entry.S \
+			kern/init.c \
+			kern/console.c \
+			kern/monitor.c \
+			kern/pmap.c \
+			kern/env.c \
+			kern/kclock.c \
+			kern/picirq.c \
+			kern/printf.c \
+			kern/trap.c \
+			kern/trapentry.S \
+			kern/sched.c \
+			kern/syscall.c \
+			kern/kdebug.c \
+			lib/printfmt.c \
+			lib/readline.c \
+			lib/string.c
+kern_sources := $(wildcard $(kern_sources))
+
+kern_binaries := 
+
+kern_objects := $(patsubst %.c, $(blddir)/%.o, $(kern_sources))
+kern_objects := $(patsubst %.S, $(blddir)/%.o, $(kern_objects))
+kern_objects := $(patsubst $(blddir)/lib/%, $(blddir)/kern/%, $(kern_objects))
+
+kern_binaries := $(patsubst %, $(blddir)/%, $(kern_binaries))
+
+$(blddir)/kern/%.o: kern/%.c
+	@echo + cc $<
+	@mkdir -p $(@D)
+	$(V)$(CC) -nostdinc $(KERN_CFLAGS) -c -o $@ $<
+
+$(blddir)/kern/%.o: kern/%.S
+	@echo + as $<
+	@mkdir -p $(@D)
+	$(V)$(CC) -nostdinc $(KERN_CFLAGS) -c -o $@ $<
+
+$(blddir)/kern/%.o: lib/%.c
+	@echo + cc $<
+	@mkdir -p $(@D)
+	$(V)$(CC) -nostdinc $(KERN_CFLAGS) -c -o $@ $<
+
+# How to build the kern itself
+$(blddir)/kern/kernel: $(kern_objects) $(kern_binaries) kern/kernel.ld
+	@echo + ld $@
+	$(V)$(LD) -o $@ $(KERN_LDFLAGS) $(kern_objects) $(GCC_LIB) -b binary $(kern_binaries)
+	$(V)$(OBJDUMP) -S $@ > $@.asm
+	$(V)$(NM) -n $@ > $@.sym
+
+# build the kern disk image
+$(blddir)/kern/kernel.img: $(blddir)/kern/kernel $(blddir)/boot/boot
+	@echo + mk $@
+	$(V)dd if=/dev/zero of=$(blddir)/kern/kernel.img~ count=10000 2>/dev/null
+	$(V)dd if=$(blddir)/boot/boot of=$(blddir)/kern/kernel.img~ conv=notrunc 2>/dev/null
+	$(V)dd if=$(blddir)/kern/kernel of=$(blddir)/kern/kernel.img~ seek=1 conv=notrunc 2>/dev/null
+	$(V)mv $(blddir)/kern/kernel.img~ $(blddir)/kern/kernel.img
+
+all: $(blddir)/kern/kernel.img
+
+grub: $(blddir)/jos-grub
+
+$(blddir)/jos-grub: $(blddir)/kern/kern
+	@echo + oc $@
+	$(V)$(OBJCOPY) --adjust-vma=0x10000000 $^ $@
